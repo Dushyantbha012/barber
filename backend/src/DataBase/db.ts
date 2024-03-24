@@ -12,6 +12,11 @@ const ownerSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    username : {
+        type:String,
+        required : true,
+        unique:true,
+    },
     password: {
         type: String,
         required: true,
@@ -36,8 +41,6 @@ const ownerSchema = new mongoose.Schema({
         default: false,
         required: true,
     }
-
-
 });
 
 const barberSchema = new mongoose.Schema({
@@ -108,7 +111,11 @@ const clientSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    city :{
+        type : String,
+        required : true,
+    }
 });
 
 

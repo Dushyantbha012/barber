@@ -1,0 +1,1 @@
+const barberRouter = express.Router();
