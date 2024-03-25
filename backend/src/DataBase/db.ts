@@ -1,4 +1,4 @@
-const mongoose = require("ts-mongoose");
+import mongoose  from "mongoose";
 const url = 'mongodb+srv://admin:N6VRzntriNi3n8ip@cluster0.lvs9kpr.mongodb.net/barber';
 mongoose.connect(url);
 
@@ -11,6 +11,11 @@ const ownerSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+    },
+    username : {
+        type:String,
+        required : true,
+        unique:true,
     },
     password: {
         type: String,
@@ -36,8 +41,6 @@ const ownerSchema = new mongoose.Schema({
         default: false,
         required: true,
     }
-
-
 });
 
 const barberSchema = new mongoose.Schema({
@@ -108,13 +111,17 @@ const clientSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    city :{
+        type : String,
+        required : true,
+    }
 });
 
 
-const owner = mongoose.model("owner", ownerSchema);
-const barber = mongoose.model("barber", barberSchema);
-const client = mongoose.model("client", clientSchema);
+export const owner = mongoose.model("owner", ownerSchema);
+export const barber = mongoose.model("barber", barberSchema);
+export const client = mongoose.model("client", clientSchema);
 
 module.exports = { owner, barber, client };
 
