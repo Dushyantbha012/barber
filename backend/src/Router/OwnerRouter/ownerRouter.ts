@@ -17,6 +17,15 @@ const ownerSignupSchema = z.object({
 });
 
 ownerRouter.post("/signup-owner", async (req: any, res: any) => {
+//params
+// name
+// email
+// username
+// password
+// shopname
+// shopcity
+// shopaddress
+// homeservice
   const reqOwner = {
     name: req.body.name,
     email: req.body.email,
@@ -29,7 +38,6 @@ ownerRouter.post("/signup-owner", async (req: any, res: any) => {
   };
 
   try {
-    // Validate the request body against the schema
     const validationResult = ownerSignupSchema.safeParse(reqOwner);
     if (!validationResult.success) {
       return res.status(403).json({
@@ -43,15 +51,9 @@ ownerRouter.post("/signup-owner", async (req: any, res: any) => {
   }
 
   try {
-    // Create a new owner instance using the request data
     const newOwner = new ownerModel(reqOwner);
-    // Save the new owner to the database
     await newOwner.save();
-
-    // Generate JWT token
     const token = jwt.sign({ ownerId: newOwner._id }, "SECRET_KEY");
-
-    // Send success response
     return res.json({
       message: "Owner Created Successfully",
       token: token,
@@ -68,6 +70,9 @@ const signInSchema = z.object({
 });
 
 ownerRouter.post("/signin-owner", async (req: any, res: any) => {
+  //params
+  //username
+  //password
     const reqOwner = {
         username: req.body.username,
         password: req.body.password,

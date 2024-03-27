@@ -2,6 +2,8 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { client as clientModel } from '../../DataBase/db';
+import {owner as ownerModel} from '../../DataBase/db';
+import {barber as barberModel} from '../../DataBase/db';
 
 const userRouter = express.Router();
 
@@ -14,6 +16,12 @@ const userSchema = z.object({
 });
 
 userRouter.post("/signup-user", async (req: any, res: any) => {
+  //params
+  // name
+  // email
+  // username
+  // password
+  // city
   const reqUser = {
     name: req.body.name,
     email: req.body.email,
@@ -57,6 +65,9 @@ const signInSchema = z.object({
 });
 
 userRouter.post("/signin-user", async (req: any, res: any) => {
+  //params
+  //username
+  //password
   const reqUser = {
     username: req.body.username,
     password: req.body.password,
@@ -88,6 +99,100 @@ userRouter.post("/signin-user", async (req: any, res: any) => {
   } catch (error) {
     console.error("Error while signing in:", error);
     return res.status(500).json({ message: "Error while signing in" });
+  }
+});
+userRouter.post("/book-barber", async (req: any, res: any) => {
+  //params for request
+  // username
+  // password
+  // date
+  // barberName
+  // selectedSlotIndex
+
+  //selectedSlotIndex => 0 == 9am-10am
+  //selectedSlotIndex => 1 == 10am-11am
+  //selectedSlotIndex => 2 == 11am-12pm
+  try {
+      const { username, password, date, barberName, selectedSlotIndex } = req.body;
+
+      const user = await clientModel.findOne({ username, password });
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      const barber = await barberModel.findOne({ name: barberName });
+      if (!barber) {
+          return res.status(404).json({ message: "Barber not found" });
+      }
+
+      if (selectedSlotIndex < 0) {
+          return res.status(400).json({ message: "Invalid time slot index" });
+      }
+
+      const selectedSlot = barber.timeSlots[selectedSlotIndex];
+      if (!selectedSlot.isAvailable) {
+          return res.status(409).json({ message: "Selected time slot is not available" });
+      }
+
+      const newBooking = {
+          date: new Date(date),
+          barber: barberName,
+          clientId: user._id,
+          client: user.name
+      };
+
+      user.bookings.push(newBooking);
+      await user.save();
+      
+      barber.timeSlots[selectedSlotIndex].isAvailable = false;
+      barber.bookings.push(newBooking);
+      await barber.save();
+
+      const owner = await ownerModel.findOne({ name: barber.ownername });
+      if (!owner) {
+          return res.status(404).json({ message: "Owner not found" });
+      }
+      owner.bookings.push(newBooking);
+      await owner.save();
+
+      return res.json({ message: "Booking added successfully", booking: newBooking });
+  } catch (error) {
+      console.error("Error while adding booking:", error);
+      return res.status(500).json({ message: "Error while adding booking" });
+  }
+});
+
+
+userRouter.post("/update-booking", async (req: any, res: any) => {
+  //things to complete : update booking in owner and barber db
+  //params in request 
+  // username
+  // date
+  // barber
+  // status
+  try {
+    const username = req.body.username;
+    const user = await clientModel.findOne({username});
+    if (!user) {
+      return res.status(404).json({ message: "Client not found" });
+    }
+    const date = new Date(req.body.date);
+    const barber = req.body.barber;
+    const booking = user.bookings.find((booking: any) => {
+      return booking.date.toString() === date.toString() && booking.barber === barber;
+    });
+    if (!booking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    const bookingId = booking._id;
+    const status = req.body.status;
+    booking.completed = status;
+
+    await user.save();
+    return res.status(200).json({ message: "Booking status updated successfully" });
+  } catch (error) {
+    console.error("Error updating booking status:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
