@@ -110,6 +110,11 @@ const barberSchema = new Schema<BarberDocument>({
     },
     rating: {
         type: Number,
+        default : 0,
+    },
+    rated: {
+        type : Number,
+        default : 0
     },
     history: {
         type: String,
@@ -175,7 +180,6 @@ const clientSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-
     },
     bookings: [{
         date: {
@@ -195,7 +199,17 @@ const clientSchema = new mongoose.Schema({
     city: {
         type: String,
         required: true,
-    }
+    },
+    ratings: [{
+        barberUsername: {
+            type: String,
+            required: true
+        },
+        rating: {
+            type: Number,
+            required: true
+        }
+    }]
 });
 
 

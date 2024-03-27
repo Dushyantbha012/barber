@@ -2,8 +2,8 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { client as clientModel } from '../../DataBase/db';
-import {owner as ownerModel} from '../../DataBase/db';
-import {barber as barberModel} from '../../DataBase/db';
+import { owner as ownerModel } from '../../DataBase/db';
+import { barber as barberModel } from '../../DataBase/db';
 
 const userRouter = express.Router();
 
@@ -113,52 +113,52 @@ userRouter.post("/book-barber", async (req: any, res: any) => {
   //selectedSlotIndex => 1 == 10am-11am
   //selectedSlotIndex => 2 == 11am-12pm
   try {
-      const { username, password, date, barberName, selectedSlotIndex } = req.body;
+    const { username, password, date, barberName, selectedSlotIndex } = req.body;
 
-      const user = await clientModel.findOne({ username, password });
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    const user = await clientModel.findOne({ username, password });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-      const barber = await barberModel.findOne({ name: barberName });
-      if (!barber) {
-          return res.status(404).json({ message: "Barber not found" });
-      }
+    const barber = await barberModel.findOne({ name: barberName });
+    if (!barber) {
+      return res.status(404).json({ message: "Barber not found" });
+    }
 
-      if (selectedSlotIndex < 0) {
-          return res.status(400).json({ message: "Invalid time slot index" });
-      }
+    if (selectedSlotIndex < 0) {
+      return res.status(400).json({ message: "Invalid time slot index" });
+    }
 
-      const selectedSlot = barber.timeSlots[selectedSlotIndex];
-      if (!selectedSlot.isAvailable) {
-          return res.status(409).json({ message: "Selected time slot is not available" });
-      }
+    const selectedSlot = barber.timeSlots[selectedSlotIndex];
+    if (!selectedSlot.isAvailable) {
+      return res.status(409).json({ message: "Selected time slot is not available" });
+    }
 
-      const newBooking = {
-          date: new Date(date),
-          barber: barberName,
-          clientId: user._id,
-          client: user.name
-      };
+    const newBooking = {
+      date: new Date(date),
+      barber: barberName,
+      clientId: user._id,
+      client: user.name
+    };
 
-      user.bookings.push(newBooking);
-      await user.save();
-      
-      barber.timeSlots[selectedSlotIndex].isAvailable = false;
-      barber.bookings.push(newBooking);
-      await barber.save();
+    user.bookings.push(newBooking);
+    await user.save();
 
-      const owner = await ownerModel.findOne({ name: barber.ownername });
-      if (!owner) {
-          return res.status(404).json({ message: "Owner not found" });
-      }
-      owner.bookings.push(newBooking);
-      await owner.save();
+    barber.timeSlots[selectedSlotIndex].isAvailable = false;
+    barber.bookings.push(newBooking);
+    await barber.save();
 
-      return res.json({ message: "Booking added successfully", booking: newBooking });
+    const owner = await ownerModel.findOne({ name: barber.ownername });
+    if (!owner) {
+      return res.status(404).json({ message: "Owner not found" });
+    }
+    owner.bookings.push(newBooking);
+    await owner.save();
+
+    return res.json({ message: "Booking added successfully", booking: newBooking });
   } catch (error) {
-      console.error("Error while adding booking:", error);
-      return res.status(500).json({ message: "Error while adding booking" });
+    console.error("Error while adding booking:", error);
+    return res.status(500).json({ message: "Error while adding booking" });
   }
 });
 
@@ -172,7 +172,7 @@ userRouter.post("/update-booking", async (req: any, res: any) => {
   // status
   try {
     const username = req.body.username;
-    const user = await clientModel.findOne({username});
+    const user = await clientModel.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: "Client not found" });
     }
@@ -195,5 +195,38 @@ userRouter.post("/update-booking", async (req: any, res: any) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
+userRouter.post('/rate-barber', async (req, res) => {
+  //prams for request
+  //barberUsername
+  //rating
+  //clientusername
+  try {
+    const { barberUsername, rating, clientUsername } = req.body;
+    if (!barberUsername || !rating || !clientUsername) {
+      return res.status(400).json({ error: 'BarberUsername, rating, and clientUsername are required.' });
+    }
+    if (isNaN(rating) || rating < 1 || rating > 5) {
+      return res.status(400).json({ error: 'Rating must be a number between 1 and 5.' });
+    }
+    const existingRating = await clientModel.findOne({ username: clientUsername, 'ratings.barberUsername': barberUsername });
+    if (existingRating) {
+      return res.status(400).json({ error: 'You have already rated this barber.' });
+    }
+    const foundBarber = await barberModel.findOne({ username: barberUsername });
+    if (!foundBarber) {
+      return res.status(404).json({ error: 'Barber not found.' });
+    }
+    foundBarber.rating = (foundBarber.rating * foundBarber.rated + rating) / (foundBarber.rated + 1);
+    foundBarber.rated += 1;
+    await foundBarber.save();
+    await clientModel.updateOne(
+      { username: clientUsername },
+      { $push: { ratings: { barberUsername: barberUsername, rating: rating } } }
+    );
+    res.status(200).json({ message: `Thank you for rating ${foundBarber.name}. New rating: ${foundBarber.rating.toFixed(2)}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error.' });
+  }
+});
 export default userRouter;
