@@ -102,4 +102,5 @@ barberRouter.post("/signin-barber", async (req: any, res: any) => {
     }
 });
 
+
 export default barberRouter;
