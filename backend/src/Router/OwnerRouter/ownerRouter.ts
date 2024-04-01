@@ -1,7 +1,8 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { owner as ownerModel } from '../../DataBase/db';
+import { owner as ownerModel } from "../../DataBase/db";
+import auth from "../Middleware/auth";
 
 const ownerRouter = express.Router();
 
@@ -13,19 +14,19 @@ const ownerSignupSchema = z.object({
   shopname: z.string(),
   shopcity: z.string(),
   shopaddress: z.string(),
-  homeservice : z.boolean()
+  homeservice: z.boolean(),
 });
 
 ownerRouter.post("/signup-owner", async (req: any, res: any) => {
-//params
-// name
-// email
-// username
-// password
-// shopname
-// shopcity
-// shopaddress
-// homeservice
+  //params
+  // name
+  // email
+  // username
+  // password
+  // shopname
+  // shopcity
+  // shopaddress
+  // homeservice
   const reqOwner = {
     name: req.body.name,
     email: req.body.email,
@@ -34,7 +35,7 @@ ownerRouter.post("/signup-owner", async (req: any, res: any) => {
     shopname: req.body.shopname,
     shopcity: req.body.shopcity,
     shopaddress: req.body.shopaddress,
-    homeservice : req.body.homeservice
+    homeservice: req.body.homeservice,
   };
 
   try {
@@ -42,7 +43,7 @@ ownerRouter.post("/signup-owner", async (req: any, res: any) => {
     if (!validationResult.success) {
       return res.status(403).json({
         message: "Invalid Inputs or existing owner",
-        errors: validationResult.error.errors
+        errors: validationResult.error.errors,
       });
     }
   } catch (error) {
@@ -65,37 +66,56 @@ ownerRouter.post("/signup-owner", async (req: any, res: any) => {
   }
 });
 const signInSchema = z.object({
-    username: z.string(),
-    password: z.string(),
+  username: z.string(),
+  password: z.string(),
 });
 
 ownerRouter.post("/signin-owner", async (req: any, res: any) => {
   //params
   //username
   //password
-    const reqOwner = {
-        username: req.body.username,
-        password: req.body.password,
-    };
-    const { success } = signInSchema.safeParse(reqOwner);
-    if (!success) {
-        return res.status(411).json({ message: "Invalid Input" });
+  const reqOwner = {
+    username: req.body.username,
+    password: req.body.password,
+  };
+  const { success } = signInSchema.safeParse(reqOwner);
+  if (!success) {
+    return res.status(411).json({ message: "Invalid Input" });
+  }
+  try {
+    const Owner = await ownerModel.findOne(reqOwner);
+    if (!Owner) {
+      return res.status(404).json({ message: "Owner doesn't exist" });
     }
-    try {
-        const Owner = await ownerModel.findOne(reqOwner);
-        if (!Owner) {
-            return res.status(404).json({ message: "Owner doesn't exist" });
-        }
-        const token = jwt.sign({ ownerId: Owner._id }, "SECRET_KEY");
-        res.json({
-            message: "Signed In Successfully",
-            token: token,
-            ownerId: Owner._id,
-        });
-    } catch (error) {
-        console.error("Error while signing in:", error);
-        return res.status(500).json({ message: "Error while signing in" });
-    }
+    const token = jwt.sign({ ownerId: Owner._id }, "SECRET_KEY");
+    res.json({
+      message: "Signed In Successfully",
+      token: token,
+      ownerId: Owner._id,
+    });
+  } catch (error) {
+    console.error("Error while signing in:", error);
+    return res.status(500).json({ message: "Error while signing in" });
+  }
+});
+
+ownerRouter.get("/owner", auth, async (req, res) => {
+  try {
+    const ownerId = req.body.ownerId;
+    const owner = ownerModel.findById(ownerId);
+    res.json({
+      name: owner.name,
+      username: owner.username,
+      email: owner.email,
+      shopname: owner.shopname,
+      shopcity: owner.shopcity,
+      shopaddress: owner.shopaddress,
+      homeservice: owner.homeservice,
+      bookings: owner.bookings,
+    });
+  } catch (error) {
+    res.status(411).json({ message: "error" });
+  }
 });
 
 export default ownerRouter;
