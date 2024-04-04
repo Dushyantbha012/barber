@@ -1,7 +1,155 @@
 import { Menuitems } from "./Menuitems.ts";
 import { useState, useRef } from "react";
 import { isLoggedInAtom } from "../recoil/atoms.ts";
-import { useRecoilValue } from "recoil";
+import { RecoilValue, useRecoilValue } from "recoil";
+
+function headerList(isLoggedIn: string | null) {
+  if (isLoggedIn === null) {
+    return (
+      <>
+        <li>
+          <a
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Login
+          </a>
+        </li>
+        <li>
+          <a
+            href="/signup"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Sign Up
+          </a>
+        </li>
+      </>
+    );
+  } else if (isLoggedIn === "customer") {
+    return (
+      <>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Profile
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Book
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Bookings
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Logout
+          </a>
+        </li>
+      </>
+    );
+  } else if (isLoggedIn === "barber") {
+    return (
+      <>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Profile
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Bookings
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Log Out
+          </a>
+        </li>
+      </>
+    );
+  } else if (isLoggedIn === "owner") {
+    return (
+      <>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Profile
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Barbers
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Bookings
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Analytics
+          </a>
+        </li>
+        <li>
+          <a
+            //********************************Give the link here*****************************
+            href="/login"
+            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+          >
+            Logout
+          </a>
+        </li>
+      </>
+    );
+  }
+}
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -65,8 +213,9 @@ export function Header() {
         </button>
 
         <div
-          className={`max-w-screen-xl mx-auto md:flex-grow md:flex md:items-center md:justify-center ${mobileMenuOpen ? "block" : "hidden"
-            }`}
+          className={`max-w-screen-xl mx-auto md:flex-grow md:flex md:items-center md:justify-center ${
+            mobileMenuOpen ? "block" : "hidden"
+          }`}
         >
           <ul className="font-large flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-6 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-80 border-gray-700 justify-center">
             {Menuitems.map((item, index) => (
@@ -102,55 +251,7 @@ export function Header() {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
-              <ul className="py-2">
-                {isLoggedIn !== null ? (
-                  <>
-                    <li>
-                      <a
-                        href="/profile"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Your Profile
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/bookings"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Your Bookings
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/book-barber"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Book Barber
-                      </a>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li>
-                      <a
-                        href="/login"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Login
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="/signup"
-                        className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-                      >
-                        Sign Up
-                      </a>
-                    </li>
-                  </>
-                )}
-              </ul>
+              <ul className="py-2">{headerList(isLoggedIn)}</ul>
             </div>
           )}
         </div>
