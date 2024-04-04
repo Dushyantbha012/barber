@@ -99,7 +99,7 @@ ownerRouter.post("/signin-owner", async (req: any, res: any) => {
   }
 });
 
-ownerRouter.get("/owner", auth, async (req, res) => {
+ownerRouter.get("/owner-details", auth, async (req, res) => {
   try {
     const ownerId = req.body.ownerId;
     const owner = ownerModel.findById(ownerId);

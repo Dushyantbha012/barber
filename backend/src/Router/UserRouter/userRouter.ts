@@ -255,10 +255,11 @@ userRouter.post("/rate-barber", auth, async (req, res) => {
   }
 });
 
-userRouter.get("/user", auth, async (req, res) => {
+userRouter.get("/user-details", auth,async (req, res) => {
   try {
     const userId = req.body.userId;
-    const user = clientModel.findById(userId);
+    const user = await clientModel.findOne({_id : userId});
+    console.log(user);
     res.json({
       name: user.name,
       username: user.username,

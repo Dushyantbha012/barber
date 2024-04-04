@@ -41,7 +41,9 @@ export default function Login() {
 
           console.log(data);
           setIsLoggedIn(selectedProfile);
-
+          localStorage.setItem("UserId", data.UserId);
+          localStorage.setItem("token", data.token);
+          navigate("/userprofile")
           alert(data.message);
         })
         .catch((error) => {
@@ -61,6 +63,9 @@ export default function Login() {
           // Handle response as needed
           console.log(data);
           setIsLoggedIn(selectedProfile);
+          localStorage.setItem("barberId", data.barberId)
+          localStorage.setItem("token", data.token);
+          navigate("/barberprofile")
           alert(data.message);
         })
         .catch((error) => {
@@ -80,6 +85,9 @@ export default function Login() {
           // Handle response as needed
           console.log(data);
           setIsLoggedIn(selectedProfile);
+          localStorage.setItem("ownerId",data.ownerId)
+          localStorage.setItem("token", data.token);
+          navigate("/ownerprofile")
           alert(data.message);
         })
         .catch((error) => {
