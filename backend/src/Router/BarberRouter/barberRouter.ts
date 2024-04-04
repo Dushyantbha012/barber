@@ -106,7 +106,7 @@ barberRouter.post("/signin-barber", async (req: any, res: any) => {
   }
 });
 
-barberRouter.get("/barber", auth, async (req, res) => {
+barberRouter.get("/barber-details", auth, async (req, res) => {
   try {
     const barberId = req.body.barberId;
     const barber = barberModel.findById(barberId);

@@ -65,9 +65,8 @@ export function Header() {
         </button>
 
         <div
-          className={`max-w-screen-xl mx-auto md:flex-grow md:flex md:items-center md:justify-center ${
-            mobileMenuOpen ? "block" : "hidden"
-          }`}
+          className={`max-w-screen-xl mx-auto md:flex-grow md:flex md:items-center md:justify-center ${mobileMenuOpen ? "block" : "hidden"
+            }`}
         >
           <ul className="font-large flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-6 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-80 border-gray-700 justify-center">
             {Menuitems.map((item, index) => (

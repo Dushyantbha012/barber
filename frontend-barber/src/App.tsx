@@ -9,11 +9,13 @@ import { Joinus } from './Components/Joinus';
 import { Pricing } from './Components/Pricing';
 import { Header } from './Components/Header';
 import Home from './Components/Home';
-import Profile from './Components/Profile';
 import Bookings from './Components/Bookings';
 import Bookbarber from './Components/Bookbarber';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
+import UserProfile from './Components/UserProfile';
+import BarberProfile from './Components/BarberProfile';
+import OwnerProfile from './Components/OwnerProfile';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,13 +39,13 @@ function App() {
               <Route path='/features' element={<Features />} />
               <Route path='/joinus' element={<Joinus />} />
               <Route path='/pricing' element={<Pricing />} />
-              <Route path='/profile' element={<Profile />} />
               <Route path='/bookings' element={<Bookings />} />
               <Route path='/book-barber' element={< Bookbarber/>} />
               <Route path='/login' element={< Login/>} />
               <Route path='/signup' element={< Signup/>} />
-              
-
+              <Route path='/userprofile' element={<UserProfile/>}/>
+              <Route path='/barberprofile' element={<BarberProfile/>}/>
+              <Route path='/ownerprofile' element={<OwnerProfile/>}/>
 
             </Routes>
           )}
