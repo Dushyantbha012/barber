@@ -57,6 +57,13 @@ export default function Signup() {
     try {
       const response = await axios.post(url, formData);
       console.log(response.data); // You can handle response data as needed
+      localStorage.setItem("token", response.data.token);
+      if (response.data.UserId)
+        localStorage.setItem("UserId", response.data.UserId);
+      if (response.data.barberId)
+        localStorage.setItem("barberId", response.data.barberId);
+      if (response.data.ownerId)
+        localStorage.setItem("ownerId", response.data.ownerId);
       setIsLoggedIn(profile);
       console.log("is logged in is: ", isLoggedIn);
       alert(response);
