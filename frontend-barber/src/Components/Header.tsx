@@ -222,7 +222,6 @@ export function Header() {
               className="w-8 h-8 rounded-full"
               onClick={toggleProfileMenu}
             />
-
           </div>
           <div
             style={profileMenuOpen ? {} : { visibility: "hidden" }}
@@ -232,7 +231,6 @@ export function Header() {
           >
             <ul className="py-2">{headerList(isLoggedIn)}</ul>
           </div>
-
         </div>
       </div>
     </nav>
