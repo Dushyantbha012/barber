@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import auth from "../Middleware/auth";
-import { client as clientModel } from "../../DataBase/db";
+import { client, client as clientModel } from "../../DataBase/db";
 import { owner as ownerModel } from "../../DataBase/db";
 import { barber as barberModel } from "../../DataBase/db";
 
@@ -269,6 +269,20 @@ userRouter.get("/user-details", auth,async (req, res) => {
     });
   } catch (error) {
     res.status(411).json({ message: "error" });
+  }
+});
+
+userRouter.get("/user-bookings", auth, async(req,res)=>{
+  try{
+    const uname = req.body.username;
+    const user = await clientModel.findOne({username : uname})
+    console.log(user);
+    res.json({
+      bookings : user.bookings
+    });
+  }
+  catch(error){
+    res.status(411).json({message : "error"})
   }
 });
 
