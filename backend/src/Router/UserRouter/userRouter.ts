@@ -105,7 +105,6 @@ userRouter.post("/signin-user", async (req: any, res: any) => {
 userRouter.post("/book-barber", auth, async (req: any, res: any) => {
   //params for request
   // username
-  // password
   // date
   // barberName
   // selectedSlotIndex
@@ -117,7 +116,7 @@ userRouter.post("/book-barber", auth, async (req: any, res: any) => {
     const { username, password, date, barberName, selectedSlotIndex } =
       req.body;
 
-    const user = await clientModel.findOne({ username, password });
+    const user = await clientModel.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }

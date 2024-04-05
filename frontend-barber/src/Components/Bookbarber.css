@@ -1,0 +1,292 @@
+/* Updated Login CSS */
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust as per your layout requirements */
+    background-color: #0a0a2a; /* Slightly lighter dark blue background */
+}
+
+.form {
+    width: 500px; /* Adjust the width of the card as needed */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 0.4em;
+    background-color: #171717; /* Dark blue background for the card */
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add box shadow for depth */
+    transition: .4s ease-in-out;
+}
+
+.form:hover {
+    transform: scale(1.05);
+}
+
+#heading {
+    text-align: center;
+    margin: 2em;
+    color: rgb(255, 255, 255);
+    font-size: 1.2em;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    border-radius: 25px;
+    padding: 0.6em;
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #171717;
+    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
+}
+
+.input-icon {
+    height: 1.3em;
+    width: 1.3em;
+    fill: white;
+}
+
+.input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: #d3d3d3;
+}
+
+.form .btn {
+    display: flex;
+    justify-content: space-between; /* Changed to space-between */
+    flex-direction: row;
+    margin-top: 2.5em;
+}
+
+.button1,
+.button2,
+.button3 {
+    flex: 1; /* Make buttons flexible */
+    padding: 0.5em;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    transition: .4s ease-in-out;
+    background-color: #252525;
+    color: white;
+}
+
+.button1:hover,
+.button2:hover,
+.button3:hover {
+    background-color: black;
+}
+
+.button3 {
+    margin-top: 1em; /* Adjusted margin */
+}
+.radio-input {
+    display: flex;
+    flex-direction: row;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+  }
+  
+  .radio-input input[type="radio"] {
+    display: none;
+  }
+  
+  .radio-input label {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #212121;
+    border-radius: 5px;
+    margin-right: 12px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .radio-input label:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .radio-input input[type="radio"]:checked + label:before {
+    background-color: green;
+    top: 0;
+  }
+  
+  .radio-input input[type="radio"]:checked + label {
+    background-color: royalblue;
+    color: #fff;
+    border-color: rgb(129, 235, 129);
+    animation: radio-translate 0.5s ease-in-out;
+  }
+  
+  @keyframes radio-translate {
+    0% {
+      transform: translateX(0);
+    }
+  
+    50% {
+      transform: translateY(-10px);
+    }
+  
+    100% {
+      transform: translateX(0);
+    }
+  }
+  .search-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(to right, #5c5c5c, #f5f5f5);
+    padding: 30px;
+    border-radius: 15px;
+    transition: background 0.3s ease;
+    perspective: 1000px;
+  }
+  
+  .label {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    color: #999;
+    pointer-events: none;
+    transition: transform 0.3s ease, font-size 0.3s ease, color 0.3s ease,
+      text-shadow 0.3s ease;
+  }
+  
+  .search-input {
+    position: relative;
+    width: 430px;
+    height: 40px;
+    padding: 12px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    background: linear-gradient(to right, #d9d9d9, #f8f8f8);
+    font-size: 16px;
+    color: #555;
+    outline: none;
+    transition: box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease,
+      border-color 0.3s ease, transform 0.3s ease;
+    transform-style: preserve-3d;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.2) inset; /* Improved box-shadow for a realistic feel */
+  }
+  
+  .search-input:focus,
+  .search-input:not(:placeholder-shown) {
+    border-color: #4caf50;
+    background: linear-gradient(to right, #c2f0c2, #f0f0f0);
+    transform: rotateX(20deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.2) inset; /* Improved box-shadow on focus */
+  }
+  
+  .search-input:focus + .label,
+  .search-input:not(:placeholder-shown) + .label {
+    transform: translateY(-120%) scale(0.8);
+    font-size: 12px;
+    color: #4caf50;
+    text-shadow: 0 0 5px rgba(76, 175, 80, 0.6);
+  }
+  
+  .search-input:hover {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.2) inset; /* Improved box-shadow on hover */
+    background: linear-gradient(to right, #e6e6e6, #f9f9f9);
+    border-color: #999;
+  }
+  
+  .clear-button {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: #999;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .clear-button:hover {
+    color: #4caf50;
+    transform: scale(1.1);
+  }
+  
+  .search-input:not(:focus):not(:placeholder-shown) + .clear-button {
+    opacity: 1;
+  }
+  
+  .shine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.6),
+      transparent
+    );
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .search-input:focus + .shine {
+    opacity: 1;
+  }
+  
+  .search-icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    color: #999;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.3s ease, filter 0.3s ease;
+    border-radius: 50%;
+  }
+  
+  .search-input:focus + .search-icon {
+    color: #4caf50;
+    transform: translateY(-50%) scale(1.1);
+    filter: drop-shadow(0 0 5px rgba(76, 175, 80, 0.6));
+  }
+  
+  @keyframes inputPulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+  
+  .search-input:focus {
+    animation: inputPulse 0.5s ease;
+  }
+  
+  
