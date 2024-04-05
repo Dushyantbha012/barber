@@ -113,9 +113,8 @@ userRouter.post("/book-barber", async (req: any, res: any) => {
   //selectedSlotIndex => 1 == 10am-11am
   //selectedSlotIndex => 2 == 11am-12pm
   try {
-    const { username, date, barberName, selectedSlotIndex } =
-      req.body;
-    console.log("req is : ",{ username, date, barberName, selectedSlotIndex })
+    const { username, date, barberName, selectedSlotIndex } = req.body;
+    console.log("req is : ", { username, date, barberName, selectedSlotIndex });
     const user = await clientModel.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -254,10 +253,10 @@ userRouter.post("/rate-barber", auth, async (req, res) => {
   }
 });
 
-userRouter.get("/user-details", auth,async (req, res) => {
+userRouter.get("/user-details", auth, async (req, res) => {
   try {
     const userId = req.body.userId;
-    const user = await clientModel.findOne({_id : userId});
+    const user = await clientModel.findOne({ _id: userId });
     console.log(user);
     res.json({
       name: user.name,
@@ -272,17 +271,16 @@ userRouter.get("/user-details", auth,async (req, res) => {
   }
 });
 
-userRouter.get("/user-bookings",  async(req,res)=>{
-  try{
-    const uname = req.body.username;
-    const user = await clientModel.findOne({username : uname})
+userRouter.get("/user-bookings", auth, async (req, res) => {
+  try {
+    const uname = req.body.userId;
+    const user = await clientModel.findById(uname);
     console.log(user);
     res.json({
-      bookings : user.bookings
+      bookings: user.bookings,
     });
-  }
-  catch(error){
-    res.status(411).json({message : "error"})
+  } catch (error) {
+    res.status(411).json({ message: "error" });
   }
 });
 

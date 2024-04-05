@@ -1,7 +1,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
-import { owner as ownerModel } from "../../DataBase/db";
+import { owner as ownerModel, barber } from "../../DataBase/db";
 import auth from "../Middleware/auth";
 
 const ownerRouter = express.Router();
@@ -117,5 +117,46 @@ ownerRouter.get("/owner-details", auth, async (req, res) => {
     res.status(411).json({ message: "error" });
   }
 });
+ownerRouter.post("/barbers", auth, async (req, res) => {
+  try {
+    const ownerId = req.body.ownerId;
+    const name = req.body.name || "";
+    const shopname = req.body.shopname || "";
+    const shopcity = req.body.shopcity || "";
+    const rate = req.body.rate || 0;
+    const rated = req.body.rated || 5;
+    type BarberQuery = {
+      [key: string]:
+        | { $regex?: string; $options?: "i" }
+        | { $gte?: number }
+        | { $lt?: number };
+    };
 
+    const query: BarberQuery = {};
+
+    if (name !== "") {
+      query.name = { $regex: name, $options: "i" };
+    }
+
+    if (shopname !== "") {
+      query.shopname = { $regex: shopname, $options: "i" };
+    }
+
+    if (shopcity !== "") {
+      query.shopcity = { $regex: shopcity, $options: "i" };
+    }
+
+    if (rated) {
+      query.rating = { $gte: rated };
+    }
+
+    if (rate) {
+      query.price = { $lt: rate };
+    }
+
+    const barbers = await barber.find(query);
+    console.log("barbers found ", barbers);
+    res.json({ barbers: barbers });
+  } catch (err) {}
+});
 export default ownerRouter;
