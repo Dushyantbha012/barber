@@ -1,7 +1,6 @@
-import { useNavigate} from "react-router-dom";
+
 export default function UserProfile()
 {
-    const navigate = useNavigate()
     return(
         <div>
             <div className="p-16"><div className="p-8 bg-white shadow mt-24">
@@ -9,15 +8,15 @@ export default function UserProfile()
                     <div className="grid grid-cols-3 text-center order-last md:order-first mt-20 md:mt-0">
                         <div>
                             <p className="font-bold text-gray-700 text-xl">22</p>
-                            <p className="text-gray-400">Rating</p>
+                            <p className="text-gray-400">Active Bookings</p>
                         </div>
                         <div>
                             <p className="font-bold text-gray-700 text-xl">10</p>
-                            <p className="text-gray-400">Rated</p>
+                            <p className="text-gray-400">Bookings</p>
                         </div>
                         <div>
                             <p className="font-bold text-gray-700 text-xl">89</p>
-                            <p className="text-gray-400">Rate</p>
+                            <p className="text-gray-400">Ratings</p>
                         </div>
                     </div>
                     <div className="relative">
