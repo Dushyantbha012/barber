@@ -245,15 +245,13 @@ export function Header() {
               className="w-8 h-8 rounded-full"
             />
           </button>
-          {profileMenuOpen && (
-            <div
+          <div
               className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
             >
               <ul className="py-2">{headerList(isLoggedIn)}</ul>
             </div>
-          )}
         </div>
       </div>
     </nav>

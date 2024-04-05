@@ -9,14 +9,15 @@ import { Joinus } from './Components/Joinus';
 import { Pricing } from './Components/Pricing';
 import { Header } from './Components/Header';
 import Home from './Components/Home';
-import Bookings from './Components/Bookings';
+import UserBookings from './Components/UserBookings';
 import Bookbarber from './Components/Bookbarber';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
 import UserProfile from './Components/UserProfile';
 import BarberProfile from './Components/BarberProfile';
 import OwnerProfile from './Components/OwnerProfile';
-
+import Analytics from './Components/Analytics';
+import NotFound from './Components/NotFound';
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,14 +40,15 @@ function App() {
               <Route path='/features' element={<Features />} />
               <Route path='/joinus' element={<Joinus />} />
               <Route path='/pricing' element={<Pricing />} />
-              <Route path='/bookings' element={<Bookings />} />
+              <Route path='/userbookings' element={<UserBookings />} />
               <Route path='/book-barber' element={< Bookbarber/>} />
               <Route path='/login' element={< Login/>} />
               <Route path='/signup' element={< Signup/>} />
               <Route path='/userprofile' element={<UserProfile/>}/>
               <Route path='/barberprofile' element={<BarberProfile/>}/>
               <Route path='/ownerprofile' element={<OwnerProfile/>}/>
-
+              <Route path='/analytics' element={<Analytics/>}/>
+              <Route path='*' element={<NotFound />} />
             </Routes>
           )}
         </div>

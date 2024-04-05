@@ -1,4 +1,4 @@
-export default function Bookings()
+export default function UserBookings()
 {
     return(
         <div>
