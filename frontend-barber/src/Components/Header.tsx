@@ -3,8 +3,9 @@ import { useState, useRef } from "react";
 import { isLoggedInAtom } from "../recoil/atoms.ts";
 import { RecoilValue, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-function headerList(isLoggedIn: string | null) {
+function headerList() {
   const navigate = useNavigate();
+  const isLoggedIn = useRecoilValue(isLoggedInAtom);
   console.log("is logged in is in headerclick: ", isLoggedIn);
   if (isLoggedIn === null) {
     return (
@@ -30,7 +31,7 @@ function headerList(isLoggedIn: string | null) {
       <>
         <li
           onClick={() => {
-            navigate("/profile");
+            navigate("/UserProfile");
           }}
         >
           Profile
@@ -63,7 +64,7 @@ function headerList(isLoggedIn: string | null) {
       <>
         <li
           onClick={() => {
-            navigate("/profile");
+            navigate("/BarberProfile");
           }}
         >
           Profile
@@ -89,7 +90,7 @@ function headerList(isLoggedIn: string | null) {
       <>
         <li
           onClick={() => {
-            navigate("/profile");
+            navigate("/OwnerProfile");
           }}
         >
           Profile
@@ -222,7 +223,6 @@ export function Header() {
               onClick={toggleProfileMenu}
             />
           </div>
-
           <div
             style={profileMenuOpen ? {} : { visibility: "hidden" }}
             className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10"
