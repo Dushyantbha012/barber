@@ -42,6 +42,7 @@ export default function Signup() {
     switch (profile) {
       case "customer":
         url = "http://localhost:3000/api/user/signup-user";
+
         break;
       case "barber":
         url = "http://localhost:3000/api/barber/signup-barber";
@@ -57,6 +58,7 @@ export default function Signup() {
       const response = await axios.post(url, formData);
       console.log(response.data); // You can handle response data as needed
       setIsLoggedIn(profile);
+      console.log("is logged in is: ", isLoggedIn);
       alert(response);
       // Reset form data after successful submission
       setFormData({

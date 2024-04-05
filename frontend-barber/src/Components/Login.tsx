@@ -41,9 +41,10 @@ export default function Login() {
 
           console.log(data);
           setIsLoggedIn(selectedProfile);
+          console.log("is logged in is: ", isLoggedIn);
           localStorage.setItem("UserId", data.UserId);
           localStorage.setItem("token", data.token);
-          navigate("/userprofile")
+          navigate("/userprofile");
           alert(data.message);
         })
         .catch((error) => {
@@ -63,9 +64,10 @@ export default function Login() {
           // Handle response as needed
           console.log(data);
           setIsLoggedIn(selectedProfile);
-          localStorage.setItem("barberId", data.barberId)
+          console.log("is logged in is: ", isLoggedIn);
+          localStorage.setItem("barberId", data.barberId);
           localStorage.setItem("token", data.token);
-          navigate("/barberprofile")
+          navigate("/barberprofile");
           alert(data.message);
         })
         .catch((error) => {
@@ -85,9 +87,10 @@ export default function Login() {
           // Handle response as needed
           console.log(data);
           setIsLoggedIn(selectedProfile);
-          localStorage.setItem("ownerId",data.ownerId)
+          console.log("is logged in is: ", isLoggedIn);
+          localStorage.setItem("ownerId", data.ownerId);
           localStorage.setItem("token", data.token);
-          navigate("/ownerprofile")
+          navigate("/ownerprofile");
           alert(data.message);
         })
         .catch((error) => {

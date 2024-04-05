@@ -2,149 +2,125 @@ import { Menuitems } from "./Menuitems.ts";
 import { useState, useRef } from "react";
 import { isLoggedInAtom } from "../recoil/atoms.ts";
 import { RecoilValue, useRecoilValue } from "recoil";
-
+import { useNavigate } from "react-router-dom";
 function headerList(isLoggedIn: string | null) {
+  const navigate = useNavigate();
+  console.log("is logged in is in headerclick: ", isLoggedIn);
   if (isLoggedIn === null) {
     return (
       <>
-        <li>
-          <a
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Login
-          </a>
+        <li
+          onClick={() => {
+            navigate("/login");
+          }}
+        >
+          Login
         </li>
-        <li>
-          <a
-            href="/signup"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Sign Up
-          </a>
+        <li
+          onClick={() => {
+            navigate("/signup");
+          }}
+        >
+          Sign Up
         </li>
       </>
     );
   } else if (isLoggedIn === "customer") {
     return (
       <>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Profile
-          </a>
+        <li
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          Profile
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Book
-          </a>
+        <li
+          onClick={() => {
+            navigate("/book");
+          }}
+        >
+          Book
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Bookings
-          </a>
+        <li
+          onClick={() => {
+            navigate("/bookings");
+          }}
+        >
+          Bookings
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Logout
-          </a>
+        <li
+          onClick={() => {
+            navigate("/logout");
+          }}
+        >
+          LogOut
         </li>
       </>
     );
   } else if (isLoggedIn === "barber") {
     return (
       <>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Profile
-          </a>
+        <li
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          Profile
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Bookings
-          </a>
+        <li
+          onClick={() => {
+            navigate("/bookings");
+          }}
+        >
+          Bookings
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Log Out
-          </a>
+        <li
+          onClick={() => {
+            navigate("/logout");
+          }}
+        >
+          LogOut
         </li>
       </>
     );
   } else if (isLoggedIn === "owner") {
     return (
       <>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Profile
-          </a>
+        <li
+          onClick={() => {
+            navigate("/profile");
+          }}
+        >
+          Profile
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Barbers
-          </a>
+        <li
+          onClick={() => {
+            navigate("/barbers");
+          }}
+        >
+          Barbers
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Bookings
-          </a>
+        <li
+          onClick={() => {
+            navigate("/bookings");
+          }}
+        >
+          Bookings
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Analytics
-          </a>
+        <li
+          onClick={() => {
+            navigate("/analytics");
+          }}
+        >
+          Analytics
         </li>
-        <li>
-          <a
-            //********************************Give the link here*****************************
-            href="/login"
-            className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
-          >
-            Logout
-          </a>
+        <li
+          onClick={() => {
+            navigate("/logout");
+          }}
+        >
+          LogOut
         </li>
       </>
     );
@@ -156,6 +132,7 @@ export function Header() {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const isLoggedIn = useRecoilValue(isLoggedInAtom); // Assuming this state for login status
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -220,40 +197,40 @@ export function Header() {
           <ul className="font-large flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-6 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-80 border-gray-700 justify-center">
             {Menuitems.map((item, index) => (
               <button key={index} className="md:inline-block">
-                <a
-                  href={item.url}
-                  className="block py-2 px-0 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 text-white hover:text-white hover:bg-transparent"
-                >
-                  <i className={item.icon}></i>
-                  {item.title}
-                </a>
+                <i
+                  className={item.icon}
+                  onClick={() => {
+                    navigate(item.url);
+                  }}
+                ></i>
+                {item.title}
               </button>
             ))}
           </ul>
         </div>
 
         <div className="relative">
-          <button
+          <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onClick={toggleProfileMenu}
             className="flex items-center justify-center w-10 h-10 text-white rounded-full focus:outline-none"
           >
             <img
               src="https://media.istockphoto.com/id/1495088043/vector/user-profile-icon-avatar-or-person-icon-profile-picture-portrait-symbol-default-portrait.jpg?s=612x612&w=0&k=20&c=dhV2p1JwmloBTOaGAtaA3AW1KSnjsdMt7-U_3EZElZ0="
               alt="Profile"
               className="w-8 h-8 rounded-full"
+              onClick={toggleProfileMenu}
             />
-          </button>
-          {profileMenuOpen && (
-            <div
-              className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
-              <ul className="py-2">{headerList(isLoggedIn)}</ul>
-            </div>
-          )}
+          </div>
+
+          <div
+            style={profileMenuOpen ? {} : { visibility: "hidden" }}
+            className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-10"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <ul className="py-2">{headerList(isLoggedIn)}</ul>
+          </div>
         </div>
       </div>
     </nav>
