@@ -1,12 +1,19 @@
 import { Menuitems } from "./Menuitems.ts";
 import { useState, useRef } from "react";
 import { isLoggedInAtom } from "../recoil/atoms.ts";
-import { RecoilValue, useRecoilValue } from "recoil";
+import { RecoilValue, useRecoilValue, useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 function headerList() {
   const navigate = useNavigate();
-  const isLoggedIn = useRecoilValue(isLoggedInAtom);
-  console.log("is logged in is in headerclick: ", isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom);
+
+  const logOut = () => {
+    localStorage.setItem("token", "");
+    localStorage.setItem(isLoggedIn || "", "");
+    setIsLoggedIn(null);
+    navigate("/");
+  };
+  console.log("is logged in is Hin headerclick: ", isLoggedIn);
   if (isLoggedIn === null) {
     return (
       <>
@@ -55,13 +62,8 @@ function headerList() {
         >
           Bookings
         </li>
-        <li
-          onClick={() => {
-            navigate("/logout");
-          }}
-          className="p-4"
-        >
-          LogOut
+        <li className="p-4">
+          <button onClick={logOut}>Log Out</button>
         </li>
       </>
     );
@@ -84,13 +86,8 @@ function headerList() {
         >
           Bookings
         </li>
-        <li
-          onClick={() => {
-            navigate("/logout");
-          }}
-          className="p-4"
-        >
-          LogOut
+        <li className="p-4">
+          <button onClick={logOut}>Log Out</button>
         </li>
       </>
     );
@@ -129,13 +126,8 @@ function headerList() {
         >
           Analytics
         </li>
-        <li
-          onClick={() => {
-            navigate("/logout");
-          }}
-          className="p-4"
-        >
-          LogOut
+        <li className="p-4">
+          <button onClick={logOut}>Log Out</button>
         </li>
       </>
     );
@@ -210,19 +202,39 @@ export function Header() {
           }`}
         >
           <ul className="font-large flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-6 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-80 border-gray-700 justify-center">
-            {Menuitems.map((item, index) => (
-              <button key={index} className="md:inline-block text-white">
-                <li
-                  className={item.icon}
-
-                  onClick={() => {
-                    navigate(item.url);
-                  }}
-                ></li>
-                
-                {item.title}
+            <li
+              className="fa-solid fa-house-user pr-1"
+              onClick={() => {
+                navigate("/");
+              }}
+            >
+              <button key={1} className="md:inline-block text-white">
+                {" "}
+                Home
               </button>
-            ))}
+            </li>
+            <li
+              className="fa-solid fa-house-user pr-1"
+              onClick={() => {
+                navigate("/aboutus");
+              }}
+            >
+              <button key={1} className="md:inline-block text-white">
+                {" "}
+                About Us
+              </button>
+            </li>
+            <li
+              className="fa-solid fa-house-user pr-1"
+              onClick={() => {
+                navigate("/pricing");
+              }}
+            >
+              <button key={1} className="md:inline-block text-white">
+                {" "}
+                Pricing
+              </button>
+            </li>
           </ul>
         </div>
 

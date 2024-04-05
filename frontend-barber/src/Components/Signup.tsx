@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 export default function Signup() {
   const [isLoggedIn, setIsLoggedIn] = useRecoilState(isLoggedInAtom);
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<string>("");
+  const [profile, setProfile] = useState<string>("customer");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
