@@ -41,7 +41,7 @@ function headerList() {
         </li>
         <li
           onClick={() => {
-            navigate("/book");
+            navigate("/book-barber");
           }}
           className="p-4"
         >
@@ -49,7 +49,7 @@ function headerList() {
         </li>
         <li
           onClick={() => {
-            navigate("/bookings");
+            navigate("/userbookings");
           }}
           className="p-4"
         >

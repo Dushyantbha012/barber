@@ -27,6 +27,7 @@ export default function Signup() {
   ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    localStorage.setItem("username",formData.username)
   };
   const handleHomeServiceChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
