@@ -1,12 +1,61 @@
-import './Bookbarber.css'
-export default function Bookbarber()
-{
-    return (
-        <div className="flex justify-center items-center h-screen relative ">
-      <form className="form pb-10" >
-        <p id="heading">Book A Barber</p>
-        <input type="text" className="search-input mb-5" placeholder="Search..." />
+import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './Bookbarber.css';
 
+export default function Bookbarber() {
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const handleDateChange = (date: Date | null) => {
+    setSelectedDate(date);
+  };
+
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>('');
+
+  const timeSlots = [
+    { startTime: '09:00 AM', endTime: '10:00 AM' },
+    { startTime: '10:00 AM', endTime: '11:00 AM' },
+    // Add more time slots as needed
+  ];
+
+  const handleTimeSlotChange = (timeSlot: string) => {
+    setSelectedTimeSlot(timeSlot);
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen relative ">
+      <form className="form pb-10 w-100">
+        <p id="heading">Book A Barber</p>
+        <input type="text" className="search-input w-auto" placeholder="Search Barber..." />
+
+        <div className="field w-9 mb-5 ">
+          <label htmlFor="basicDatePicker" className='pr-4 '>Select Date:</label>
+         <DatePicker
+            className='text-black w-[150px] pl-4 bg-gradient-to-r from-gray-300 to-gray-200 rounded'
+            selected={selectedDate}
+            onChange={handleDateChange}
+            dateFormat="dd/MM/yyyy"
+            minDate={new Date()} 
+          />
+        </div>
+        <div>
+        <div>
+      <div className="field w-9 mb-5">
+        <label htmlFor="timeSlotPicker" className='pr-4'>Time Slot</label>
+        <select
+          id="timeSlotPicker"
+          className='text-black w-[150px] pl-4 bg-gradient-to-r from-gray-300 to-gray-200 rounded'
+          value={selectedTimeSlot}
+          onChange={(e) => handleTimeSlotChange(e.target.value)}
+        >
+          <option value="">Time Slot..</option>
+          {timeSlots.map((slot, index) => (
+            <option key={index} value={slot.startTime}>{`${slot.startTime} - ${slot.endTime}`}</option>
+          ))}
+        </select>
+      </div>
+    </div>
+    </div>
         <div className="field mb-3">
           <svg
             className="input-icon"
@@ -20,37 +69,19 @@ export default function Bookbarber()
           </svg>
           <input
             autoComplete="off"
-            placeholder="Username"
+            placeholder="Your Username"
             className="input-field"
             type="text"
           />
         </div>
-        <div className="field">
-          <svg
-            className="input-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            viewBox="0 0 16 16"
-          >
-            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
-          </svg>
-          <input
-            placeholder="Password"
-            className="input-field"
-            type="password"
-          />
-        </div>
+        
         <div className="btn">
-          <button className="button1 mr-5" type="submit">
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          </button>
+         
           <button className="button2">
-            Sign Up
+            Confirm Booking
           </button>
         </div>
       </form>
     </div>
-    )
+  );
 }

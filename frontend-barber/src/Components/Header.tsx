@@ -14,6 +14,7 @@ function headerList() {
           onClick={() => {
             navigate("/login");
           }}
+          className="p-4"
         >
           Login
         </li>
@@ -21,6 +22,7 @@ function headerList() {
           onClick={() => {
             navigate("/signup");
           }}
+          className="p-4"
         >
           Sign Up
         </li>
@@ -33,6 +35,7 @@ function headerList() {
           onClick={() => {
             navigate("/UserProfile");
           }}
+          className="p-4"
         >
           Profile
         </li>
@@ -40,6 +43,7 @@ function headerList() {
           onClick={() => {
             navigate("/book");
           }}
+          className="p-4"
         >
           Book
         </li>
@@ -47,6 +51,7 @@ function headerList() {
           onClick={() => {
             navigate("/bookings");
           }}
+          className="p-4"
         >
           Bookings
         </li>
@@ -54,6 +59,7 @@ function headerList() {
           onClick={() => {
             navigate("/logout");
           }}
+          className="p-4"
         >
           LogOut
         </li>
@@ -66,6 +72,7 @@ function headerList() {
           onClick={() => {
             navigate("/BarberProfile");
           }}
+          className="p-4"
         >
           Profile
         </li>
@@ -73,6 +80,7 @@ function headerList() {
           onClick={() => {
             navigate("/bookings");
           }}
+          className="p-4"
         >
           Bookings
         </li>
@@ -80,6 +88,7 @@ function headerList() {
           onClick={() => {
             navigate("/logout");
           }}
+          className="p-4"
         >
           LogOut
         </li>
@@ -92,6 +101,7 @@ function headerList() {
           onClick={() => {
             navigate("/OwnerProfile");
           }}
+          className="p-4"
         >
           Profile
         </li>
@@ -99,6 +109,7 @@ function headerList() {
           onClick={() => {
             navigate("/barbers");
           }}
+          className="p-4"
         >
           Barbers
         </li>
@@ -106,6 +117,7 @@ function headerList() {
           onClick={() => {
             navigate("/bookings");
           }}
+          className="p-4"
         >
           Bookings
         </li>
@@ -113,6 +125,7 @@ function headerList() {
           onClick={() => {
             navigate("/analytics");
           }}
+          className="p-4"
         >
           Analytics
         </li>
@@ -120,6 +133,7 @@ function headerList() {
           onClick={() => {
             navigate("/logout");
           }}
+          className="p-4"
         >
           LogOut
         </li>
@@ -197,13 +211,15 @@ export function Header() {
         >
           <ul className="font-large flex flex-col p-4 md:p-0 mt-4 border rounded-lg md:flex-row md:space-x-6 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-80 border-gray-700 justify-center">
             {Menuitems.map((item, index) => (
-              <button key={index} className="md:inline-block">
-                <i
+              <button key={index} className="md:inline-block text-white">
+                <li
                   className={item.icon}
+
                   onClick={() => {
                     navigate(item.url);
                   }}
-                ></i>
+                ></li>
+                
                 {item.title}
               </button>
             ))}
@@ -230,7 +246,7 @@ export function Header() {
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
-            <ul className="py-2">{headerList(isLoggedIn)}</ul>
+            <ul className="py-2">{headerList()}</ul>
           </div>
 
         </div>
