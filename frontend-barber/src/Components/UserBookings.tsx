@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
 interface Booking {
     date: Date;
@@ -10,27 +10,29 @@ export default function UserBookings(): JSX.Element {
     const [bookings, setBookings] = useState<Booking[]>([]);
 
     useEffect(() => {
+        const fetchUserBookings = async () => {
+            try {
+                let uname = localStorage.getItem("username");
+                
+            
+                const response = await fetch('http://localhost:3000/user/user-bookings', {
+                    method: 'GET',
+                    body: JSON.stringify({uname})
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setBookings(data.bookings);
+                } else {
+                    console.error('Failed to fetch user bookings');
+                }
+            } catch (error) {
+                console.error('Error fetching user bookings:', error);
+            }
+        };
         fetchUserBookings();
     }, []);
 
-    const fetchUserBookings = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/user/user-bookings', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-            if (response.ok) {
-                const data = await response.json();
-                setBookings(data.bookings);
-            } else {
-                console.error('Failed to fetch user bookings');
-            }
-        } catch (error) {
-            console.error('Error fetching user bookings:', error);
-        }
-    };
+   
 
     return (
         <div className="flex justify-center items-center h-screen relative ">

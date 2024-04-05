@@ -2,60 +2,100 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './Bookbarber.css';
-
 export default function Bookbarber() {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-
+  const [date, setSelectedDate] = useState<Date | null>(null);
+  const [username, setUsername] = useState("");
+  const [barberName,setbarbername] =useState("");
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
   };
 
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState<string | undefined>('');
+  const [selectedSlotIndex, setSelectedTimeSlotIndex] = useState<number | undefined>(undefined);
 
   const timeSlots = [
     { startTime: '09:00 AM', endTime: '10:00 AM' },
     { startTime: '10:00 AM', endTime: '11:00 AM' },
-    // Add more time slots as needed
+    { startTime: '11:00 AM', endTime: '12:00 PM' },
+    { startTime: '12:00 PM', endTime: '01:00 PM' },
+    { startTime: '01:00 PM', endTime: '02:00 PM' },
+    { startTime: '02:00 PM', endTime: '03:00 PM' },
+    { startTime: '03:00 PM', endTime: '04:00 PM' },
+    { startTime: '04:00 PM', endTime: '05:00 PM' },
+    { startTime: '05:00 PM', endTime: '06:00 PM' },
+    { startTime: '06:00 PM', endTime: '07:00 PM' },
+    { startTime: '07:00 PM', endTime: '08:00 PM' }
   ];
 
   const handleTimeSlotChange = (timeSlot: string) => {
-    setSelectedTimeSlot(timeSlot);
+  const index = timeSlots.findIndex(slot => slot.startTime === timeSlot);
+    setSelectedTimeSlotIndex(index);
   };
 
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handlebarbernamechange = (e: React.ChangeEvent<HTMLInputElement>)=>{
+    setbarbername(e.target.value);
+  }
+  const bookAppointment = async () => {
+
+
+    try {
+      fetch("http://localhost:3000/api/user/book-barber",{
+        method: "POST",
+        headers:{
+          "Content-Type":"application/json",
+        },
+        body: JSON.stringify({username,date,barberName,selectedSlotIndex})
+      })
+      .then((response)=>response.json())
+      .then((data)=>{
+        console.log(data)
+
+      })
+      .catch((error)=>{
+        console.error("Error : ",error);
+      })
+    } catch (error) {
+      console.error('Error while booking appointment:', error);
+      // Handle error response as needed
+    }
+  };
   return (
     <div className="flex justify-center items-center h-screen relative ">
       <form className="form pb-10 w-100">
         <p id="heading">Book A Barber</p>
-        <input type="text" className="search-input w-auto" placeholder="Search Barber..." />
+        <input type="text" className="search-input w-auto" placeholder="Search Barber..." onChange={handlebarbernamechange} />
 
         <div className="field w-9 mb-5 ">
           <label htmlFor="basicDatePicker" className='pr-4 '>Select Date:</label>
-         <DatePicker
+          <DatePicker
             className='text-black w-[150px] pl-4 bg-gradient-to-r from-gray-300 to-gray-200 rounded'
-            selected={selectedDate}
+            selected={date}
             onChange={handleDateChange}
             dateFormat="dd/MM/yyyy"
-            minDate={new Date()} 
+            minDate={new Date()}
           />
         </div>
+
         <div>
-        <div>
-      <div className="field w-9 mb-5">
-        <label htmlFor="timeSlotPicker" className='pr-4'>Time Slot</label>
-        <select
-          id="timeSlotPicker"
-          className='text-black w-[150px] pl-4 bg-gradient-to-r from-gray-300 to-gray-200 rounded'
-          value={selectedTimeSlot}
-          onChange={(e) => handleTimeSlotChange(e.target.value)}
-        >
-          <option value="">Time Slot..</option>
-          {timeSlots.map((slot, index) => (
-            <option key={index} value={slot.startTime}>{`${slot.startTime} - ${slot.endTime}`}</option>
-          ))}
-        </select>
-      </div>
-    </div>
-    </div>
+          <div className="field w-9 mb-5">
+            <label htmlFor="timeSlotPicker" className='pr-4'>Time Slot</label>
+            <select
+              id="timeSlotPicker"
+              className='text-black w-[150px] pl-4 bg-gradient-to-r from-gray-300 to-gray-200 rounded'
+              value={selectedSlotIndex !== undefined ? timeSlots[selectedSlotIndex].startTime : ''}
+              onChange={(e) => handleTimeSlotChange(e.target.value)}
+            >
+              <option value="">Time Slot..</option>
+              {timeSlots.map((slot, index) => (
+                <option key={index} value={slot.startTime}>{`${slot.startTime} - ${slot.endTime}`}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
         <div className="field mb-3">
           <svg
             className="input-icon"
@@ -72,14 +112,14 @@ export default function Bookbarber() {
             placeholder="Your Username"
             className="input-field"
             type="text"
+            onChange={handleUsernameChange}
           />
         </div>
-        
+
         <div className="btn">
-         
-          <button className="button2">
+          <div className="button2" onClick={bookAppointment}>
             Confirm Booking
-          </button>
+          </div>
         </div>
       </form>
     </div>

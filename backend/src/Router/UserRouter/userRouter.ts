@@ -102,7 +102,7 @@ userRouter.post("/signin-user", async (req: any, res: any) => {
     return res.status(500).json({ message: "Error while signing in" });
   }
 });
-userRouter.post("/book-barber", auth, async (req: any, res: any) => {
+userRouter.post("/book-barber", async (req: any, res: any) => {
   //params for request
   // username
   // date
@@ -113,9 +113,9 @@ userRouter.post("/book-barber", auth, async (req: any, res: any) => {
   //selectedSlotIndex => 1 == 10am-11am
   //selectedSlotIndex => 2 == 11am-12pm
   try {
-    const { username, password, date, barberName, selectedSlotIndex } =
+    const { username, date, barberName, selectedSlotIndex } =
       req.body;
-
+    console.log("req is : ",{ username, date, barberName, selectedSlotIndex })
     const user = await clientModel.findOne({ username });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -151,12 +151,12 @@ userRouter.post("/book-barber", auth, async (req: any, res: any) => {
     barber.bookings.push(newBooking);
     await barber.save();
 
-    const owner = await ownerModel.findOne({ name: barber.ownername });
-    if (!owner) {
-      return res.status(404).json({ message: "Owner not found" });
-    }
-    owner.bookings.push(newBooking);
-    await owner.save();
+    // const owner = await ownerModel.findOne({ name: barber.ownername });
+    // if (!owner) {
+    //   return res.status(404).json({ message: "Owner not found" });
+    // }
+    // owner.bookings.push(newBooking);
+    // await owner.save();
 
     return res.json({
       message: "Booking added successfully",
@@ -272,7 +272,7 @@ userRouter.get("/user-details", auth,async (req, res) => {
   }
 });
 
-userRouter.get("/user-bookings", auth, async(req,res)=>{
+userRouter.get("/user-bookings",  async(req,res)=>{
   try{
     const uname = req.body.username;
     const user = await clientModel.findOne({username : uname})

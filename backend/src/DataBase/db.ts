@@ -94,10 +94,6 @@ const barberSchema = new Schema<BarberDocument>({
     type: String,
     required: true,
   },
-  ownerUsername: {
-    type: String,
-    required: true,
-  },
   username: {
     type: String,
     unique: true,
