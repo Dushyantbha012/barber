@@ -1,5 +1,4 @@
 import { useState, ChangeEvent, FormEvent } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { isLoggedInAtom } from "../recoil/atoms.ts";
 import { useRecoilState } from "recoil";
@@ -18,7 +17,7 @@ export default function Signup() {
     shopcity: "",
     shopaddress: "",
     homeservice: false,
-    ownerName: "",
+    ownerUsername: "",
     rate: "",
   });
 
@@ -56,7 +55,7 @@ export default function Signup() {
     }
 
     try {
-      fetch("http://localhost:3000/api/barber/signin-barber", {
+      await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +82,7 @@ export default function Signup() {
             shopcity: "",
             shopaddress: "",
             homeservice: false,
-            ownerName: "",
+            ownerUsername: "",
             rate: "",
           });
           if (profile === "customer") navigate("userprofile");
@@ -164,8 +163,8 @@ export default function Signup() {
           <>
             <div className="field">
               <input
-                name="ownerName"
-                value={formData.ownerName}
+                name="ownerUsername"
+                value={formData.ownerUsername}
                 onChange={handleChange}
                 placeholder="Owner Name"
                 className="input-field"

@@ -117,9 +117,8 @@ ownerRouter.get("/owner-details", auth, async (req, res) => {
     res.status(411).json({ message: "error" });
   }
 });
-ownerRouter.post("/barbers", auth, async (req, res) => {
+ownerRouter.post("/barbers", async (req, res) => {
   try {
-    const ownerId = req.body.ownerId;
     const name = req.body.name || "";
     const shopname = req.body.shopname || "";
     const shopcity = req.body.shopcity || "";

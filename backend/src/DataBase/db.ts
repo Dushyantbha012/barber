@@ -83,6 +83,7 @@ interface BarberDocument extends Document {
   password: string;
   rate: number;
   rating?: number;
+  rated:number;
   history?: string;
   available: boolean;
   timeSlots: { timeRange: string; isAvailable: boolean }[];
@@ -93,6 +94,10 @@ const barberSchema = new Schema<BarberDocument>({
   name: {
     type: String,
     required: true,
+  },
+  ownerUsername:{
+    type:String,
+    required : true,
   },
   username: {
     type: String,
