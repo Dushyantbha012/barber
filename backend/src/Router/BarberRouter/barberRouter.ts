@@ -8,6 +8,7 @@ const barberRouter = express.Router();
 
 const barberSchema = z.object({
   name: z.string(),
+  email :z.string().email(),
   ownerUsername: z.string(),
   username: z.string(),
   password: z.string(),
@@ -21,9 +22,11 @@ barberRouter.post("/signup-barber", async (req: any, res: any) => {
   //username
   //password
   //rate
+  console.log("request is :",req)
   const reqBarb = {
     name: req.body.name,
     ownerUsername: req.body.ownerUsername,
+    email:req.body.email,
     username: req.body.username,
     password: req.body.password,
     rate: req.body.rate,
@@ -31,6 +34,8 @@ barberRouter.post("/signup-barber", async (req: any, res: any) => {
 
   try {
     const validationResult = barberSchema.safeParse(reqBarb);
+    console.log("here")
+    console.log("request")
     if (!validationResult.success) {
       return res.status(403).json({
         message: "Invalid Inputs or Existing User",
